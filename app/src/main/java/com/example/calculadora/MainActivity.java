@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 
 public class MainActivity extends AppCompatActivity {
+    private EditText txtOperaciones;
     private EditText txtResultado;
     private Teclado teclado;
 
@@ -23,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        txtOperaciones = (EditText) findViewById(R.id.txtOperaciones);
         txtResultado = (EditText) findViewById(R.id.txtResultado);
-        teclado = new Teclado(txtResultado);
+        teclado = new Teclado(txtOperaciones, txtResultado);
 
-        View.OnClickListener listener = new View.OnClickListener() {
+        View.OnClickListener pulsarTecla = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()){
@@ -68,7 +70,25 @@ public class MainActivity extends AppCompatActivity {
 
         for (View v :
                 allButtons) {
-            v.setOnClickListener(listener);
+            v.setOnClickListener(pulsarTecla);
         }
+
+
+
+        View.OnClickListener ResultadoBtnIgual = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                teclado.igual();
+            }
+        };
+
+        findViewById(R.id.btnIgual).setOnClickListener(ResultadoBtnIgual);
+
+        View.OnClickListener resultadoTiempoReal = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        };
     }
 }

@@ -2,43 +2,89 @@ package com.example.calculadora;
 
 import android.widget.EditText;
 
+import java.text.DecimalFormat;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 public class Teclado {
-    private EditText editText;
+    private EditText operaciones;
+    private EditText resultado;
+    private boolean resultadoTiempoReal;
 
-    public Teclado(EditText editText){
-        this.editText = editText;
+    public Teclado(EditText operaciones, EditText resultado){
+        this.operaciones = operaciones;
+        this.resultado = resultado;
+        this.resultadoTiempoReal = false;
     }
+    
+    // IGUAL
+    public void igual(){
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
 
-    //OFF
+        if (operaciones.length() > 0){
+            if (s.charAt(l) != '+' && s.charAt(l) != '-' && s.charAt(l) != '*' && s.charAt(l) != '/'
+                    && s.charAt(l) != '.' && s.charAt(l) != '(' && s.charAt(l) != '%'){
+
+                String resultado = "";
+
+                ScriptEngineManager mgr = new ScriptEngineManager();
+                ScriptEngine engine = mgr.getEngineByName("js");
+
+                try {
+                    resultado = String.valueOf(engine.eval(s));
+                } catch (ScriptException e) {
+                    e.printStackTrace();
+                }
+
+                double f = Double.parseDouble(resultado);
+                String formatNumber = "#.####";
+                DecimalFormat d = new DecimalFormat(formatNumber);
+                resultado = d.format(f);
+
+                this.resultado.setText(resultado.replace(',','.'));
+
+
+
+            }
+        }
+    }
+    
+    // OFF
     public void off(){
         System.exit(0);
     }
 
     // C
     public void c(){
-        this.editText.getText().clear();
+        this.operaciones.getText().clear();
+        this.resultado.getText().clear();
+        this.resultadoTiempoReal = false;
     }
 
     // DEL
     public void del(){
-        String operaciones = this.editText.getText().toString().toString();
+        String operaciones = this.operaciones.getText().toString().toString();
 
         try {
-            this.editText.setText(operaciones.substring(0,operaciones.length()-1));
+            this.operaciones.setText(operaciones.substring(0,operaciones.length()-1));
         } catch (StringIndexOutOfBoundsException stringIndexOutOfBoundsException){
             System.out.println("Se han borrado todos los caracteres.");
+            this.resultadoTiempoReal = false;
         }
     }
 
     // PUNTO
     public void punto(){
         boolean puedeEscribir = true;
-        String s = editText.getText().toString();
+        String s = operaciones.getText().toString();
         int l = s.length()-1;
 
-        if (this.editText.length() <= 0){
+        if (this.operaciones.length() <= 0){
 
-            this.editText.setText("0.");
+            this.operaciones.setText("0.");
         } else {
 
             for (int i = l; i >= 0; i--){
@@ -59,7 +105,7 @@ public class Teclado {
             }
 
             if (puedeEscribir){
-                this.editText.append(".");
+                this.operaciones.append(".");
             }
         }
     }
@@ -86,109 +132,170 @@ public class Teclado {
 
     public void sumar(){
 
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
 
+        if (s.length() > 0){
             if (s.charAt(l) != '+'){
-                this.editText.append("+");
+                this.operaciones.append("+");
+                this.resultadoTiempoReal = true;
             }
         }
     }
 
     public void restar(){
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
 
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
+
+        if (s.length() > 0){
             if (s.charAt(l) != '-'){
-                this.editText.append("-");
+                this.operaciones.append("-");
+                this.resultadoTiempoReal = true;
             }
         }
     }
 
     public void multiplicar(){
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
 
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
+
+        if (s.length() > 0){
             if (s.charAt(l) != '*'){
-                this.editText.append("*");
+                this.operaciones.append("*");
+                this.resultadoTiempoReal = true;
             }
         }
     }
 
     public void dividir(){
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
 
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
+
+        if (s.length() > 0){
             if (s.charAt(l) != '/'){
-                this.editText.append("/");
+                this.operaciones.append("/");
+                this.resultadoTiempoReal = true;
             }
         }
     }
 
     public void porcentaje(){
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
 
+        String s = operaciones.getText().toString();
+        int l = s.length()-1;
+
+        if (s.length() > 0){
             if (s.charAt(l) != '%'){
-                this.editText.append("%");
+                this.operaciones.append("%");
+                this.resultadoTiempoReal = true;
             }
+        }
+
+        if (resultadoTiempoReal){
+            igual();
         }
     }
 
     public void raizCuadrada(){
-        this.editText.append("√");
+        this.operaciones.append("√");
     }
 
     // NUMEROS
-    public void cero(){
-        String s = editText.getText().toString();
-        if (s.length() > 0){
-            int l = s.length()-1;
 
-            if (s.charAt(l) != '0'){
-                this.editText.append("0");
-            }
+    public void cero(){
+        String s = operaciones.getText().toString();
+
+        if (s.length() > 0){
+            this.operaciones.append("0");
+        }
+
+        if (resultadoTiempoReal){
+            igual();
         }
     }
 
     public void uno(){
-        this.editText.append("1");
+
+        this.operaciones.append("1");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
+
     }
 
     public void dos(){
-        this.editText.append("2");
+
+        this.operaciones.append("2");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void tres(){
-        this.editText.append("3");
+
+        this.operaciones.append("3");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void cuatro(){
-        this.editText.append("4");
+
+        this.operaciones.append("4");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void cinco(){
-        this.editText.append("5");
+
+        this.operaciones.append("5");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void seis(){
-        this.editText.append("6");
+
+        this.operaciones.append("6");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void siete(){
-        this.editText.append("7");
+
+        this.operaciones.append("7");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void ocho(){
-        this.editText.append("8");
+
+        this.operaciones.append("8");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 
     public void nueve(){
-        this.editText.append("9");
+
+        this.operaciones.append("9");
+
+        if (resultadoTiempoReal){
+            igual();
+        }
     }
 }

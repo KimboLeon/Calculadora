@@ -17,10 +17,22 @@
         <TableRow>
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="55dp"
                 android:textSize="32sp"
-                android:gravity="top|left"
+                android:gravity="top|right"
                 android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:layout_span="4"
+                android:id="@+id/txtOperaciones"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="26sp"
+                android:gravity="top|right"
+                android:textColor="#737373"
                 android:backgroundTint="@color/black"
                 android:layout_span="4"
                 android:id="@+id/txtResultado"/>
