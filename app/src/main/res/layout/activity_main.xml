@@ -18,7 +18,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:textSize="32sp"
+                android:textSize="26sp"
                 android:gravity="top|right"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/white"
@@ -30,7 +30,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:gravity="top|right"
                 android:textColor="#737373"
                 android:backgroundTint="@color/black"
@@ -311,8 +311,8 @@
                     android:layout_margin="1dp"
                     android:backgroundTint="#CFCECE"
                     android:textColor="@color/black"
-                    android:text="@string/xExclamacion"
-                    android:id="@+id/btnXExclamacion"/>
+                    android:text="@string/factorial"
+                    android:id="@+id/btnFactorial"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -320,8 +320,8 @@
                     android:layout_margin="1dp"
                     android:backgroundTint="#CFCECE"
                     android:textColor="@color/black"
-                    android:text="@string/superIndice"
-                    android:id="@+id/btnSuperIndice"/>
+                    android:text="@string/exponente"
+                    android:id="@+id/btnExponente"/>
             </TableRow>
         </TableLayout>
 

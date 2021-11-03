@@ -23,11 +23,11 @@
     <string name="tan">TAN</string>
     <string name="cos">COS</string>
     <string name="sin">SIN</string>
-    <string name="superIndice">X^</string>
+    <string name="exponente">X^</string>
     <string name="igual">=</string>
     <string name="off">OFF</string>
     <string name="ctg">CTG</string>
-    <string name="xExclamacion">X!</string>
+    <string name="factorial">X!</string>
     <string name="sec">SEC</string>
     <string name="csc">CSC</string>
 </resources>
